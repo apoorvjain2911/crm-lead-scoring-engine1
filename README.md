@@ -185,22 +185,33 @@ skipped as duplicates.
 Frontend (recommended): Vercel, Netlify, or any static hosting.
 
 - Build with `npm run build` and deploy `frontend/dist`.
-- If using Vercel, connect the repo and set the project to build `frontend`
-	and output the `dist` folder. No backend config required on Vercel for
-	the static site.
+- Set `VITE_API_BASE_URL` in the frontend deployment to your backend URL.
+- If using Vercel, use the repo root `crm-lead-scoring-engine1`, set the
+	frontend project root to `frontend`, and keep the output folder as `dist`.
 
 Backend (recommended): Render, Railway, or a VPS/container host.
 
-- Use a production DB (Postgres) instead of the included SQLite DB.
+- Use a production DB (Postgres) instead of the included SQLite DB for real
+	deployments.
 - Configure the service to run `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
-- Expose the backend URL as an environment variable for the frontend (if
-	required), or update `frontend/src/api/leads.js` BASE_URL to the deployed API.
+- Set `ALLOWED_ORIGINS` to your deployed frontend URL(s), for example:
+
+```text
+https://your-frontend.vercel.app
+```
 
 Quick deploy notes — sample provider choices
 
-- Vercel (frontend): connect repo, set root to `frontend`, build command `npm run build`, output folder `dist`.
-- Render / Railway (backend): Create a Python web service, set start command
-	to `uvicorn app.main:app --host 0.0.0.0 --port 8000`, set environment variables, and attach a managed Postgres instance for production.
+- Vercel (frontend): connect repo, set root to `frontend`, build command `npm run build`, output folder `dist`, and add `VITE_API_BASE_URL`.
+- Render (backend): use the included [render.yaml](render.yaml) blueprint or
+	create a Python web service with `rootDir: backend`, install from
+	`requirements.txt`, and start with `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
+
+Frontend environment example
+
+```text
+VITE_API_BASE_URL=https://your-backend-domain.example.com
+```
 
 ### Security & production notes
 
