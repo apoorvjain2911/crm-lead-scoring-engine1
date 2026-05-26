@@ -194,6 +194,8 @@ Backend (recommended): Render, Railway, or a VPS/container host.
 - Use a production DB (Postgres) instead of the included SQLite DB for real
 	deployments.
 - Configure the service to run `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
+- Pin `PYTHON_VERSION=3.12.11` on Render so SciPy/scikit-learn install from
+	prebuilt wheels instead of trying to compile on Python 3.14.
 - Set `ALLOWED_ORIGINS` to your deployed frontend URL(s), for example:
 
 ```text
