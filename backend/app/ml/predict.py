@@ -71,7 +71,7 @@ def save_lead_to_db(input_data, prediction):
         }
 
     except Exception as e:
-        db.rollbanownock()
+        db.rollback()
         print("DB Error:", e)
         return {
             "saved": False,
